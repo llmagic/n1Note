@@ -185,8 +185,8 @@ docker run -d \
 #xiaoya-alist
 docker run -d --name xiaoya_alist \
     -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya:/data \
-    -p 5678:5678 
-    -p 2345:2345 
+    -p 5678:5678 \
+    -p 2345:2345 \
     -p 2346:2346 \
     -e TZ=Asia/Shanghai \
     -e ALIYUN_TOKEN=ef06b7ff5cabb13795e387e69d56b8bf \
@@ -196,3 +196,27 @@ docker run -d --name xiaoya_alist \
     -e AUTO_CLEAR_ENABLED=true \
     --network=host \
     ghcr.io/monlor/xiaoya-alist 
+
+docker run -d --name xiaoya_metadata \
+    -e LANG=C.UTF-8 \
+    -e EMBY_ENABLED=true \
+    -e JELLYFIN_ENABLED=false \
+    -e AUTO_UPDATE_EMBY_CONFIG_ENABLED=true \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya:/etc/xiaoya \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/media:/media/xiaoya \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/config:/media/config \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/cache:/media/config/cache \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/meta:/media/temp \
+    --network=host \
+    ghcr.io/monlor/xiaoya-metadata
+
+docker run -d --name xiaoya_emby
+    -e TZ=Asia/Shanghai \
+    -e GIDLIST=0 \
+    -e ALIST_ADDR=http://192.168.3.100:5678 \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/media:/media \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/config:/config \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya_meta/cache:/cache \
+    -p 6908:6908 \
+    --network=host \
+    ghcr.io/monlor/xiaoya-embyserver
