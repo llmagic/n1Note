@@ -181,3 +181,18 @@ docker run -d \
  -e UMASK=022 \
  --name="alist" \
  xhofe/alist
+
+#xiaoya-alist
+docker run -d --name xiaoya_alist \
+    -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/xiaoya:/data \
+    -p 5678:5678 
+    -p 2345:2345 
+    -p 2346:2346 \
+    -e TZ=Asia/Shanghai \
+    -e ALIYUN_TOKEN=ef06b7ff5cabb13795e387e69d56b8bf \
+    -e ALIYUN_OPEN_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJlYmI4YWNkMGEyYjA0ODljOTViNzVjMjNkYTlhNjYyNSIsImF1ZCI6Ijc2OTE3Y2NjY2Q0NDQxYzM5NDU3YTA0ZjYwODRmYjJmIiwiZXhwIjoxNzQ3NDQwMjIyLCJpYXQiOjE3Mzk2NjQyMjIsImp0aSI6ImZmZWIyN2I2YzU3MTQ5MTdhMzRjZjdkN2YzZjhjMDNiIn0.PvqUriKel63Sh1nqafOsopyiDcFSxYrSjbQBKo5AhAxXm7miDDqsmUD9jkcmG1KERDTZGTocq4ss3jzQnSjg6Q \
+    -e ALIYUN_FOLDER_ID=67b08468fb1b9cee08114bec94ac3e34d6589428 \
+    -e AUTO_UPDATE_ENABLED=true \
+    -e AUTO_CLEAR_ENABLED=true \
+    --network=host \
+    ghcr.io/monlor/xiaoya-alist 
