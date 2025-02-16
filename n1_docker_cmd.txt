@@ -1,0 +1,183 @@
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer \
+    --restart=always \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v portainer_data:/data \
+    s5k3lfs3.mirror.aliyuncs.com/portainer/portainer-ce:2.9.3
+
+docker run -d \
+  --name=heimdall \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -p 8100:80 \
+  -p 8101:443 \
+  -v hemidall_data:/config \
+  --restart unless-stopped \
+  lscr.io/linuxserver/heimdall:latest
+
+docker run -d \
+  --name  kdcloud \
+  --restart=always \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/kdcloud:/var/www/html \
+  -p 8200:80 \
+  lstcml/n1_kodcloud
+
+lstcml/n1_zerotier
+
+docker run -d \
+    --name aria2-pro \
+    --restart unless-stopped \
+    -e PUID=$UID \
+    -e PGID=$GID \
+    -e UMASK_SET=022 \
+    -e RPC_SECRET=MAjun0227 \
+    -e RPC_PORT=6800 \
+    -p 6800:6800 \
+    -e LISTEN_PORT=6888 \
+    -p 6888:6888 \
+    -p 6888:6888/udp \
+    -v $PWD/aria2-config:/config \
+    -v $PWD/aria2-downloads:/downloads \
+    p3terx/aria2-pro
+	
+	
+docker run -d \
+    --name ariang \
+    --restart unless-stopped \
+    -p 6880:6880 \
+    p3terx/ariang
+
+	
+
+
+docker run -d \
+  --name=transmission \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Shanghai/China \
+  -e USER=admin `#optional` \
+  -e PASS=password `#optional` \
+  -p 9091:9091 \
+  -p 51413:51413 \
+  -p 51413:51413/udp \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/transmission/config:/config \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/Data/transmission/downloads:/downloads \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/Data/transmission/watch:/watch \
+  --restart unless-stopped \
+  lscr.io/linuxserver/transmission
+
+https://github.com/ronggang/transmission-web-control  
+https://github.com/6c65726f79/Transmissionic
+
+docker run -d \
+  --name=nextcloud \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -p 9200:443 \
+  -v /var/media/sdb-usb-USB_SanDisk_3.2G/N1/nextcloud:/var/www/html \
+  --restart unless-stopped \
+  --privileged=true \
+  s5k3lfs3.mirror.aliyuncs.com/linuxserver/nextcloud:arm64v8-latest
+
+#docker run -d \
+# --name jellyfin \
+# -p 9900:8096 \
+# --volume /var/media/TOSHIBAHDD/N1/docker/jellyfin/config:/config \
+# --volume /var/media/TOSHIBAHDD/N1/docker/jellyfin/cache:/cache \
+# --mount type=bind,source=/var/media/TOSHIBAHDD/N1/docker/transmission/downloads,target=/media \
+# --restart=unless-stopped \
+# jellyfin/jellyfin
+#
+#docker run -d \
+# --name jellyfin \
+# --user 1000:1000 \
+# --volume /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/jellyfin/config:/config \
+# --volume /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/jellyfin/cache:/cache \
+# --mount type=bind,source=/var/media/sda1-usb-Lenovo_USB_3.0_D/Data/transmission/downloads/complete,target=/media \
+# --restart=unless-stopped \
+# s5k3lfs3.mirror.aliyuncs.com/jellyfin/jellyfin 
+#
+#docker run -d \
+#  --name=jellyfin \
+#  -e PUID=1000 \
+#  -e PGID=1000 \
+#  -e TZ=Asia/Shanghai \
+#  -p 9900:8096 \
+#  -v /var/media/TOSHIBAHDD/N1/docker/jellyfin/config:/config \
+#  -v /var/media/TOSHIBAHDD/N1/tvShow:/data/tvshows \
+#  -v /var/media/TOSHIBAHDD/N1/docker/transmission/downloads:/data/movies \
+#  --restart unless-stopped \
+#  ghcr.io/linuxserver/jellyfin:arm64v8-latest
+
+docker run -d \
+  --name=jellyfin \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Shanghai \
+  -p 8300:8096 \
+  -p 8301:8920 `#optional` \
+  -p 8302:7359/udp `#optional` \
+  -p 8304:1900/udp `#optional` \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/jellyfin/config:/config \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/jellyfin/tvseries:/data/tvshows \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/Data/transmission/downloads/complete:/data/movies \
+  --restart unless-stopped \
+  s5k3lfs3.mirror.aliyuncs.com/linuxserver/jellyfin:arm64v8-nightly
+
+#docker run -d \
+#      --name clouddrive \
+#      --restart unless-stopped \
+#      -v <path to accept cloud mounts>:/CloudNAS:shared \
+#      -v <path to app data>:/Config \
+#      -v <other local shared path>:/media:shared \
+#      --network host \
+#      --pid host\
+#     --privileged \
+#     --device /dev/fuse:/dev/fuse \
+#     cloudnas/clouddrive
+#
+#docker pull homeassistant/home-assistant:latest
+#docker run -d \
+#  --name homeassistant \
+#  --privileged \
+#  --restart=unless-stopped \
+#  -e TZ=Asia/Shanghai \
+#  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/homeassistant/config:/config \
+#  --network=host \
+#  ghcr.io/home-assistant/home-assistant:stable
+
+https://post.smzdm.com/p/av7o02dm/
+docker pull homeassistant/aarch64-hassio-supervisor
+docker run -d \
+  --name hassio_supervisor \
+  --privileged \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /var/run/dbus:/var/run/dbus \
+  -v /var/media/sda1-usb-Lenovo_USB_3.0_D/docker/hass:/data \
+  -e SUPERVISOR_SHARE="/var/media/sda1-usb-Lenovo_USB_3.0_D/docker/hass" \
+  -e SUPERVISOR_NAME=hassio_supervisor \
+  -e HOMEASSISTANT_REPOSITORY="homeassistant/qemuarm-64-homeassistant" \
+  --restart unless-stopped \
+  ghcr.io/home-assistant/aarch64-hassio-supervisor:2022.05.0
+
+hacs安装
+https://post.smzdm.com/p/a0dxnl9z/
+xiaomi miIot
+https://github.com/ha0y/xiaomi_miot_raw
+
+  
+homeadmin token
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJlN2I0NzU2ODAxYzA0MDkxOGQyMWIzMTRkMjY4ZDk0ZCIsImlhdCI6MTY1MTkzMzEyMiwiZXhwIjoxOTY3MjkzMTIyfQ.9TxLbkslc4BMXxZ0xR1NE2OSVoXafC0p4SO_Uouka9I
+
+
+#alist
+docker run -d \
+ --restart=always \
+ -v /etc/alist:/opt/alist/data \
+ -p 5244:5244 \
+ -e PUID=0 \
+ -e PGID=0 \
+ -e UMASK=022 \
+ --name="alist" \
+ xhofe/alist
