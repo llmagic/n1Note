@@ -210,7 +210,7 @@ docker run -d --name xiaoya_metadata \
     --network=host \
     ghcr.io/monlor/xiaoya-metadata
 
-docker run -d --name xiaoya_emby
+docker run -d --name xiaoya_emby \
     -e TZ=Asia/Shanghai \
     -e GIDLIST=0 \
     -e ALIST_ADDR=http://192.168.3.100:5678 \
